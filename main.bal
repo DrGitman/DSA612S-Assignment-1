@@ -48,4 +48,9 @@ service /programme on new http:Listener(9090) {
 
         check caller->respond(res);
     }
+
+        // Retrieve all programmes
+    resource function get allProgrammes(http:Caller caller) returns error? {
+        check caller->respond(programmes);
+    }
 }
