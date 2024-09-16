@@ -33,6 +33,18 @@ service /programme on new http:Listener(9090) {
             return;
         }
 
+        // Check if the programmeCode already exists in the programmes list
+foreach var programme in programmes {
+    if (programme.programmeCode == newProgramme.programmeCode) {
+        http:Response res = new;
+        res.setJsonPayload({ "message": "Programme with the given code already exists." });
+        res.statusCode = http:STATUS_CONFLICT;
+        check caller->respond(res);
+        return;
+    }
+}
+
+
         programmes.push(newProgramme);
 
         http:Response res = new;
