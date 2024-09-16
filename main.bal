@@ -77,4 +77,32 @@ resource function put updateProgramme(string programmeCode, http:Caller caller, 
         check caller->respond(res);
     }
 }
+
+    // Resource to delete a programme based on the programmeCode
+    resource function delete deleteProgramme(http:Caller caller, http:Request req, string programmeCode) returns error? {
+        boolean isDeleted = false;
+
+        // Use array:filter to create a new array without the programme to be deleted
+        Programme[] updatedProgrammes = programmes.filter(function(Programme p) returns boolean {
+            return p.programmeCode != programmeCode;
+        });
+
+        // Check if any programme was deleted by comparing array lengths
+        if (updatedProgrammes.length() != programmes.length()) {
+            programmes = updatedProgrammes;
+            isDeleted = true;
+        }
+
+        http:Response res = new;
+
+        if (isDeleted) {
+            res.setJsonPayload({ "message": "Programme deleted successfully." });
+            res.statusCode = http:STATUS_OK;
+        } else {
+            res.setJsonPayload({ "message": "Programme not found." });
+            res.statusCode = http:STATUS_NOT_FOUND;
+        }
+
+        check caller->respond(res);
+    }
 }
