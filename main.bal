@@ -154,7 +154,7 @@ resource function get reviewDueProgramme(http:Caller caller) returns error? {
 
     check caller->respond(dueProgrammes);
 }
-}
+
   // Retrieve all programmes by faculty
     resource function get facultyProgrammes(string faculty, http:Caller caller) returns error? {
         Programme[] facultyProgrammes = programmes.filter(function(Programme p) returns boolean {
@@ -171,3 +171,4 @@ resource function get reviewDueProgramme(http:Caller caller) returns error? {
     }
 
  }
+}
