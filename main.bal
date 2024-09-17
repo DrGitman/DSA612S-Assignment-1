@@ -153,3 +153,19 @@ resource function get reviewDueProgramme(http:Caller caller) returns error? {
     check caller->respond(dueProgrammes);
 }
 }
+  // Retrieve all programmes by faculty
+    resource function get facultyProgrammes(string faculty, http:Caller caller) returns error? {
+        Programme[] facultyProgrammes = programmes.filter(function(Programme p) returns boolean {
+            return p.faculty == faculty;
+        });
+
+        if (facultyProgrammes.length() == 0) {
+            http:Response res = new;
+            res.setJsonPayload({ "message": "No programmes found for the specified faculty." });
+            res.statusCode = http:STATUS_NOT_FOUND;
+            check caller->respond(res);
+        } else {
+            check caller->respond(facultyProgrammes);
+    }
+
+ }
