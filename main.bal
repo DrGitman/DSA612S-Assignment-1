@@ -117,4 +117,39 @@ resource function put updateProgramme(string programmeCode, http:Caller caller, 
 
         check caller->respond(res);
     }
+
+
+// Get programmes that are due for review based on the review cycle
+resource function get reviewDueProgramme(http:Caller caller) returns error? {
+    time:Seconds reviewCycle = 5 * 365 * 24 * 60 * 60;  // 5 years in seconds
+    time:Utc currentTime = time:utcNow();
+
+    // Filtering programmes that are due for review
+    Programme[] dueProgrammes = [];
+    foreach Programme programme in programmes {
+        // Ensure registrationDate follows RFC 3339 format before parsing
+        string registrationDate = programme.registrationDate;
+
+        // If the date doesn't have time information, append default time and timezone
+        if (!registrationDate.includes("T")) {  // Replaced contains with includes
+            registrationDate = registrationDate + "T00:00:00Z";  // Add default time and timezone
+        }
+
+        // Parse the registration date to time:Utc
+        time:Utc|error registrationTime = time:utcFromString(registrationDate);
+        if (registrationTime is error) {
+            io:println("Error parsing registration date for programme: " + programme.programmeCode + " with date: " + registrationDate);
+            continue;  // Skip this programme if the date cannot be parsed
+        }
+
+        time:Seconds elapsedTime = time:utcDiffSeconds(currentTime, registrationTime);
+
+        if (elapsedTime >= reviewCycle) {
+            io:println("Review cycle has been reached for programme: " + programme.programmeCode);
+            dueProgrammes.push(programme);
+        }
+    }
+
+    check caller->respond(dueProgrammes);
+}
 }
