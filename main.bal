@@ -25,6 +25,7 @@ service /programme on new http:Listener(9090) {
         json requestBody = check req.getJsonPayload();
         Programme newProgramme = check requestBody.cloneWithType(Programme);
 
+        //Check if required fields are present
         if (newProgramme.programmeCode == "" || newProgramme.programmeTitle == "") {
             http:Response res = new;
             res.setJsonPayload({ "message": "Invalid data: programmeCode and programmeTitle are required." });
@@ -43,7 +44,6 @@ foreach var programme in programmes {
         return;
     }
 }
-
 
         programmes.push(newProgramme);
 
