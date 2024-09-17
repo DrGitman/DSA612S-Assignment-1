@@ -1,5 +1,6 @@
 import ballerina/http;
 import ballerina/time;
+import ballerina/io;
 
 public type Course record {
     string courseCode;
