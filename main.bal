@@ -170,5 +170,29 @@ resource function get reviewDueProgramme(http:Caller caller) returns error? {
             check caller->respond(facultyProgrammes);
     }
 
+
  }
+    // Retrieve details of a specific programme by programmeCode
+    resource function get programmeDetails(string programmeCode, http:Caller caller) returns error? {
+        Programme? programme = ();
+        foreach Programme p in programmes {
+            if (p.programmeCode == programmeCode) {
+                programme = p;
+                break;
+            }
+        }
+
+        http:Response res = new;
+
+        if (programme is Programme) {
+            json programmeJson = programme.toJson();
+            res.setJsonPayload({ "programme": programmeJson });
+            res.statusCode = http:STATUS_OK;
+        } else {
+            res.setJsonPayload({ "message": "Programme not found." });
+            res.statusCode = http:STATUS_NOT_FOUND;
+        }
+
+        check caller->respond(res);
+    }
 }
