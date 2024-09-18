@@ -11,7 +11,7 @@ service AdminService {
 
 service CustomerService {
     rpc ListAvailableProducts (ListAvailableProductsRequest) returns (ListAvailableProductsResponse);
-    rpc SearchProduct (SearchProductRequest) returns (ProductResponse);
+    rpc SearchProduct (SearchProductRequest) returns (SearchProductResponse);
     rpc AddToCart (AddToCartRequest) returns (AddToCartResponse);
     rpc PlaceOrder (PlaceOrderRequest) returns (PlaceOrderResponse);
 }
