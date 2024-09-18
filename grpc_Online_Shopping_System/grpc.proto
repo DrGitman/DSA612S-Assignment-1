@@ -105,4 +105,3 @@ message RemoveProductResponse{
     message PlaceOrderResponse {
         string message = 1;
     }
-    
