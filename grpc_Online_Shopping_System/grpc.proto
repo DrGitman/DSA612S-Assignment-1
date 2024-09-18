@@ -13,7 +13,7 @@ service CustomerService {
     rpc ListAvailableProducts (ListAvailableProductsRequest) returns (ListAvailableProductsResponse);
     rpc SearchProduct (SearchProductRequest) returns (ProductResponse);
     rpc AddToCart (AddToCartRequest) returns (AddToCartResponse);
-    rpc PlaceOrder (PlaceOrderRequest) returns (OrderResponse);
+    rpc PlaceOrder (PlaceOrderRequest) returns (PlaceOrderResponse);
 }
 
 //Product definition
