@@ -46,9 +46,9 @@ message OrderRequest {
 }
 
 message UserRequest {
-  string id = 1;
-  string name = 2;
-  string role = 3; // either "customer" or "admin"
+  string user_id = 1;
+  string user_name = 2;
+  string user_role = 3; // either "customer" or "admin"
 }
 
 // Response messages
