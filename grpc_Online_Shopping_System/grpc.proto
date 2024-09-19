@@ -1,107 +1,104 @@
 syntax = "proto3";
 
-package onlineShoppingSystem;
+package shopping;
 
-service AdminService {
-    rpc AddProduct (AddProductRequest) returns (AddProductResponse);
-    rpc UpdateProduct (UpdateProductRequest) returns (ProductResponse);
-    rpc RemoveProduct (RemoveProductRequest) returns (RemoveProductResponse);
-    rpc CreateUser (stream CreateUserRequest) returns (CreateUsersResponse);
+service ShoppingService {
+  // Admin operations
+  rpc AddProduct(AddProductRequest) returns (AddProductResponse);
+  rpc UpdateProduct(ProductUpdateRequest) returns (ProductUpdateResponse);
+  rpc RemoveProduct(RemoveProductRequest) returns (RemoveProductResponse);
+
+  // Customer operations
+  rpc ListAvailableProducts(Empty) returns (ProductListResponse);
+  rpc SearchProduct(SearchProductRequest) returns (SearchProductResponse);
+  rpc AddToCart(AddToCartRequest) returns (AddToCartResponse);
+  rpc PlaceOrder(OrderRequest) returns (OrderResponse);
+
+  // User operations
+  rpc CreateUsers(stream UserRequest) returns (UserResponse);
 }
 
-service CustomerService {
-    rpc ListAvailableProducts (ListAvailableProductsRequest) returns (ListAvailableProductsResponse);
-    rpc SearchProduct (SearchProductRequest) returns (SearchProductResponse);
-    rpc AddToCart (AddToCartRequest) returns (AddToCartResponse);
-    rpc PlaceOrder (PlaceOrderRequest) returns (PlaceOrderResponse);
-}
-
-//Product definition
-message Product {
-    string product_name = 1;
-    string product_description = 2;
-    double product_price = 3;
-    int32  product_stockQuantity = 4;
-    string product_sku = 5;
-    string product_status = 6;
-  }  
-
-// Request message definitions
+// Request messages
 message AddProductRequest {
-    string product_name = 1;
-    string product_description = 2;
-    double product_price = 3;
-    int32  product_stockQuantity = 4;
-    string product_sku = 5;
-    string product_status = 6;
+  Product product = 1;
 }
 
-message CreateUserRequest {
-    string user_id = 1;
-    string user_name = 2;
-    string user_role = 3;
+message ProductUpdateRequest {
+  string product_code = 1;
+  Product product = 2;
 }
 
-message UpdateProductRequest {
-    string product_code = 1;
-    string product_name = 2;
-    string product_description = 3;
-    double product_price = 4;
-    int32  product_stockQuantity = 5;
-    string product_sku = 7;
-    string product_status = 8;
+message RemoveProductRequest {
+  string product_sku = 1;
 }
-
-message RemoveProductRequest{
-string product_code = 1;
-}
-
-message ListAvailableProductsRequest {}
 
 message SearchProductRequest {
-    string product_sku = 1;
+  string product_sku = 1;
 }
 
 message AddToCartRequest {
-    string user_id = 1;
-    string product_sku = 2;
+  string user_id = 1;
+  string sku = 2;
 }
 
-message PlaceOrderRequest {
-    string user_id = 1;
+message OrderRequest {
+  string user_id = 1;
 }
 
-//Response message definitions
+message UserRequest {
+  string id = 1;
+  string name = 2;
+  string role = 3; // either "customer" or "admin"
+}
+
+// Response messages
 message AddProductResponse {
-    string product_code = 1;
-    string message = 2;
+  string product_id = 1;
+  string message = 2;
 }
 
-message CreateUsersResponse {
-    string message = 1;
+message ProductUpdateResponse {
+  string product_id = 1;
+  string message = 2;
 }
 
-message UpdateProductResponse {
-    string message = 1;
+message RemoveProductResponse {
+  string message = 1;
 }
 
-message RemoveProductResponse{
-    string message = 1;
-    }
+message ProductListResponse {
+  repeated Product products = 1;
+}
 
-    message ListAvailableProductsResponse {
-        repeated Product products = 1;
-    }
-    
-    message SearchProductResponse {
-        Product product = 1;
-        string message = 2;
-    }
+message SearchProductResponse {
+  Product product = 1;
+}
 
-    message AddToCartResponse {
-        string message = 1;
-    }
+message AddToCartResponse {
+  repeated Product products = 1;
+  string message = 2;
+}
 
-    message PlaceOrderResponse {
-        string message = 1;
-    }
+message OrderResponse {
+  string order_id = 1;
+  repeated Product products = 2;
+  string message = 3;
+}
+
+message UserResponse {
+  string message = 1;
+}
+
+// Product message
+message Product {
+  string product_id = 1;
+  string product_name = 2;
+  string product_description = 3;
+  float product_price = 4;
+  int32 product_stock = 5;
+  string product_sku = 6;
+  string product_status = 7;
+}
+
+// Empty message
+message Empty {}
