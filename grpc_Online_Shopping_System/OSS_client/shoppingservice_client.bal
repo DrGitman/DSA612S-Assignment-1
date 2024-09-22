@@ -23,7 +23,7 @@ public function main() returns error? {
     SearchProductResponse searchProductResponse = check ep->SearchProduct(searchProductRequest);
     io:println(searchProductResponse);
 
-    AddToCartRequest addToCartRequest = {user_id: "ballerina", sku: "ballerina"};
+    AddToCartRequest addToCartRequest = {user_id: "ballerina", product_sku: "ballerina"};
     AddToCartResponse addToCartResponse = check ep->AddToCart(addToCartRequest);
     io:println(addToCartResponse);
 
