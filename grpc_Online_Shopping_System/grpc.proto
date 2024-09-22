@@ -38,7 +38,7 @@ message SearchProductRequest {
 
 message AddToCartRequest {
   string user_id = 1;
-  string sku = 2;
+  string product_sku = 2;
 }
 
 message OrderRequest {
