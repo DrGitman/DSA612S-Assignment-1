@@ -32,12 +32,18 @@ ShoppingServiceClient ep = check new ("http://localhost:9090");
     OrderResponse placeOrderResponse = check ep->PlaceOrder(placeOrderRequest);
     io:println(placeOrderResponse);
 
-    UserRequest createUsersRequest = {user_id: "ballerina", user_name: "ballerina", user_role: "ballerina"};
+    UserRequest createUsersRequest1 = {user_id: "U001", user_name: "Alice", user_role: "customer"};
+    UserRequest createUsersRequest2 = {user_id: "U002", user_name: "Bob", user_role: "admin"};
+
     CreateUsersStreamingClient createUsersStreamingClient = check ep->CreateUsers();
-    check createUsersStreamingClient->sendUserRequest(createUsersRequest);
+
+    check createUsersStreamingClient->sendUserRequest(createUsersRequest1);
+    check createUsersStreamingClient->sendUserRequest(createUsersRequest2);
+
     check createUsersStreamingClient->complete();
+
     UserResponse? createUsersResponse = check createUsersStreamingClient->receiveUserResponse();
-    io:println(createUsersResponse);
+    io:println("Create Users Response: ", createUsersResponse);
 }
 
 

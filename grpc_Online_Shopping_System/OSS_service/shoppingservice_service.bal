@@ -4,6 +4,9 @@ import ballerina/time;
 
 map<Product> productStore = {};
 
+map<UserRequest> userStore= {};
+
+
 
 listener grpc:Listener ep = new (9090);
 
@@ -64,10 +67,6 @@ service "ShoppingService" on ep {
         
     }
 
-
-
-   
-
     remote function RemoveProduct(RemoveProductRequest value) returns RemoveProductResponse|error {
     }
 
@@ -83,7 +82,26 @@ service "ShoppingService" on ep {
     remote function PlaceOrder(OrderRequest value) returns OrderResponse|error {
     }
 
+        //Create multiple users via streaming
     remote function CreateUsers(stream<UserRequest, grpc:Error?> clientStream) returns UserResponse|error {
+        int usersCreated = 0;
+        UserRequest[] createdUsers = [];
+
+        grpc:Error? streamError = clientStream.forEach(function(UserRequest userReq) {
+            userStore[userReq.user_id] = userReq;
+            createdUsers.push(userReq);
+            usersCreated += 1;
+        });
+
+        if streamError is grpc:Error {
+            return streamError;
+        }
+
+        UserResponse response = {
+            message: "Users successfully created."
+        };
+
+        return response;
     }
 }
 
