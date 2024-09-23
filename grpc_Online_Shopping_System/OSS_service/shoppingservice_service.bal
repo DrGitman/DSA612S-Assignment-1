@@ -80,7 +80,39 @@ service "ShoppingService" on ep {
     }
 
     remote function PlaceOrder(OrderRequest value) returns OrderResponse|error {
+
+        
+        string product_id = value.product_id;
+
+        // Check if the user has a cart
+
+
+        if userCart.length() == 0 {
+            return {message: "Cart is empty. Cannot place an order."};
+        }
+
+        // Create a unique order ID (for simplicity, using the user ID and timestamp)
+        string orderId = "ORDER_" + product_id + "_" + time:utcNow().toString();
+
+        // Iterate over the user's cart and reduce stock
+        Product[] orderedProducts = [];
+        foreach Product product in userCart {
+            // Check product availability
+            Product? storedProduct = productStore[product.product_id];
+            if storedProduct is Product && storedProduct.product_stock > 0 {
+                storedProduct.product_stock -= 1; // Reduce the stock by 1
+                productStore[product.product_id] = storedProduct; // Update the productStore
+                orderedProducts.push(product); // Add the product to the order
+            }
+        }
+
+        // Clear the user's cart after placing the order
+        userCarts[product_id] = [];
+
+        // Return the order response with ordered products
+        return {order_id: orderId, products: orderedProducts, message: "Order placed successfully"};
     }
+
 
         //Create multiple users via streaming
     remote function CreateUsers(stream<UserRequest, grpc:Error?> clientStream) returns UserResponse|error {
