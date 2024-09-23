@@ -2,8 +2,6 @@ import ballerina/grpc;
 import ballerina/io;
 import ballerina/time;
 
-
-
 map<Product> productStore = {};
 map<Cart> cartStore = {};
 map<UserRequest> userStore= {};
@@ -185,8 +183,6 @@ remote function AddToCart(AddToCartRequest value) returns AddToCartResponse|erro
     
 
     remote function PlaceOrder(OrderRequest value) returns OrderResponse|error {
-
-        
         string product_id = value.product_id;
 
         // Check if the user has a cart
