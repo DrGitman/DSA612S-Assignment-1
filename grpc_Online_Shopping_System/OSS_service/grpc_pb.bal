@@ -46,7 +46,7 @@ public isolated client class ShoppingServiceClient {
         ProductUpdateRequest message;
         if req is ContextProductUpdateRequest {
             message = req.content;
-            headers = req.headers;
+            headers = req.headers; 
         } else {
             message = req;
         }
