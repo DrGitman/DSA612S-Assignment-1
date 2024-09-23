@@ -6,6 +6,7 @@ map<Product> productStore = {};
 
 map<UserRequest> userStore= {};
 
+ Product[] availableProducts = [];
 
 
 listener grpc:Listener ep = new (9090);
@@ -70,10 +71,34 @@ service "ShoppingService" on ep {
     remote function RemoveProduct(RemoveProductRequest value) returns RemoveProductResponse|error {
     }
 
-    remote function ListAvailableProducts(Empty value) returns ProductListResponse|error {
+    // Customer operations
+remote function ListAvailableProducts(Empty value) returns ProductListResponse|error {
+    // Create a list to hold available products
+    Product[] availableProducts = [];
+
+    // Iterate over the productStore map to find available products
+    foreach var product in productStore {
+        if product.product_status == "available" && product.product_stock > 0 {
+            availableProducts.push(product);
+        }
+    }
+    // Return the available products
+    return { products: availableProducts };
     }
 
-    remote function SearchProduct(SearchProductRequest value) returns SearchProductResponse|error {
+        remote function SearchProduct(SearchProductRequest value) returns SearchProductResponse|error {
+    // Get the SKU from the request
+    string requestedSku = value.product_sku;
+
+    // Iterate over the productStore map to find a product by SKU
+    foreach var product in productStore {
+        if product.product_sku == requestedSku {
+            // If the product is found, return the product's details
+            return {product: product};
+        }
+    }
+    // Return an error if the product is not found
+    return error("Product not available for the provided SKU.");
     }
 
     remote function AddToCart(AddToCartRequest value) returns AddToCartResponse|error {

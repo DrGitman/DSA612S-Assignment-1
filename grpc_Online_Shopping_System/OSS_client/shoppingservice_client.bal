@@ -16,13 +16,23 @@ ShoppingServiceClient ep = check new ("http://localhost:9090");
     RemoveProductResponse removeProductResponse = check ep->RemoveProduct(removeProductRequest);
     io:println(removeProductResponse);
 
-    Empty listAvailableProductsRequest = {};
+// Request to list all available products
+Empty listAvailableProductsRequest = {};
     ProductListResponse listAvailableProductsResponse = check ep->ListAvailableProducts(listAvailableProductsRequest);
-    io:println(listAvailableProductsResponse);
-
-    SearchProductRequest searchProductRequest = {product_sku: "ballerina"};
+    io:println(listAvailableProductsResponse); 
+// Call the SearchProduct method
+    SearchProductRequest searchProductRequest = {product_sku: "T-002"}; // Define the SKU for the search
     SearchProductResponse searchProductResponse = check ep->SearchProduct(searchProductRequest);
-    io:println(searchProductResponse);
+    
+    // Print the product details if found
+    io:println("Product Details:");
+    io:println("Product ID: ", searchProductResponse.product.product_id);
+    io:println("Product Name: ", searchProductResponse.product.product_name);
+    io:println("Product Description: ", searchProductResponse.product.product_description);
+    io:println("Product Price: ", searchProductResponse.product.product_price);
+    io:println("Product Stock: ", searchProductResponse.product.product_stock);
+    io:println("Product SKU: ", searchProductResponse.product.product_sku);
+    io:println("Product Status: ", searchProductResponse.product.product_status);
 
     AddToCartRequest addToCartRequest = {user_id: "ballerina", product_sku: "ballerina"};
     AddToCartResponse addToCartResponse = check ep->AddToCart(addToCartRequest);
