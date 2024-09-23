@@ -2,7 +2,7 @@ import ballerina/io;
 
 ShoppingServiceClient ep = check new ("http://localhost:9090");
 
-public function main() returns error? {
+
    public function main() returns error? {
     AddProductRequest addProductRequest = {product: {product_id: "p1", product_name: "acer", product_description: "black", product_price: 120000, product_stock: 1, product_sku: "SKU123", product_status: "available"}};
     AddProductResponse addProductResponse = check ep->AddProduct(addProductRequest);
@@ -39,4 +39,5 @@ public function main() returns error? {
     UserResponse? createUsersResponse = check createUsersStreamingClient->receiveUserResponse();
     io:println(createUsersResponse);
 }
+
 
