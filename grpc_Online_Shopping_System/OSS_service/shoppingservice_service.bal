@@ -10,7 +10,7 @@ listener grpc:Listener ep = new (9090);
 @grpc:Descriptor {value: GRPC_DESC}
 service "ShoppingService" on ep {
 
-    remote function AddProduct(AddProductRequest value) returns AddProductResponse|error {
+    remote function AddProduct(AddProductRequest request) returns AddProductResponse|error {
         Product product = request.product;
         productStore[product.product_id] = product;
         return {product_id:product.product_id ,message: "Product added successfully"};
