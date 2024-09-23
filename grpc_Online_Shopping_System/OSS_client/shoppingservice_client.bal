@@ -7,7 +7,7 @@ public function main() returns error? {
     AddProductResponse addProductResponse = check ep->AddProduct(addProductRequest);
     io:println(addProductResponse);
 
-    ProductUpdateRequest updateProductRequest = {product_code: "ballerina", product: {product_id: "ballerina", product_name: "ballerina", product_description: "ballerina", product_price: 1, product_stock: 1, product_sku: "ballerina", product_status: "ballerina"}};
+    ProductUpdateRequest updateProductRequest = {user_id: "ballerina", product_id: "ballerina", product: {product_id: "ballerina", product_name: "ballerina", product_description: "ballerina", product_price: 1, product_stock: 1, product_sku: "ballerina", product_status: "ballerina"}};
     ProductUpdateResponse updateProductResponse = check ep->UpdateProduct(updateProductRequest);
     io:println(updateProductResponse);
 
@@ -27,7 +27,7 @@ public function main() returns error? {
     AddToCartResponse addToCartResponse = check ep->AddToCart(addToCartRequest);
     io:println(addToCartResponse);
 
-    OrderRequest placeOrderRequest = {user_id: "ballerina"};
+    OrderRequest placeOrderRequest = {product_id: "ballerina"};
     OrderResponse placeOrderResponse = check ep->PlaceOrder(placeOrderRequest);
     io:println(placeOrderResponse);
 

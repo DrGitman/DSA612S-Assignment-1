@@ -24,8 +24,9 @@ message AddProductRequest {
 }
 
 message ProductUpdateRequest {
-  string product_code = 1;
-  Product product = 2;
+  string user_id = 1;
+  string product_id = 2;
+  Product product = 3;
 }
 
 message RemoveProductRequest {
@@ -42,7 +43,7 @@ message AddToCartRequest {
 }
 
 message OrderRequest {
-  string user_id = 1;
+  string product_id = 1;
 }
 
 message UserRequest {
@@ -58,8 +59,7 @@ message AddProductResponse {
 }
 
 message ProductUpdateResponse {
-  string product_id = 1;
-  string message = 2;
+  string message = 1;
 }
 
 message RemoveProductResponse {
