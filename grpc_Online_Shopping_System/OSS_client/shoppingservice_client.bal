@@ -8,7 +8,7 @@ public function main() returns error? {
     AddProductResponse addProductResponse = check ep->AddProduct(addProductRequest);
     io:println(addProductResponse);
 
-    ProductUpdateRequest updateProductRequest = {product: {user_id: "U002", product_id: "p1", product_name: "Lenovo", product_description: "ballerina", product_price: 1, product_stock: 1, product_sku: "ballerina", product_status: "available"}};
+    ProductUpdateRequest updateProductRequest = {user_id: "U002", product_id: "p1", product: {product_id: "p1", product_name: "Lenovo", product_description: "ballerina", product_price: 1, product_stock: 1, product_sku: "ballerina", product_status: "available"}};
     ProductUpdateResponse updateProductResponse = check ep->UpdateProduct(updateProductRequest);
     io:println(updateProductResponse);
 
