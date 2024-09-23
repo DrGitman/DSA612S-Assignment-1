@@ -3,11 +3,12 @@ import ballerina/io;
 ShoppingServiceClient ep = check new ("http://localhost:9090");
 
 public function main() returns error? {
-    AddProductRequest addProductRequest = {product: {product_id: "ballerina", product_name: "ballerina", product_description: "ballerina", product_price: 1, product_stock: 1, product_sku: "ballerina", product_status: "ballerina"}};
+   public function main() returns error? {
+    AddProductRequest addProductRequest = {product: {product_id: "p1", product_name: "acer", product_description: "black", product_price: 120000, product_stock: 1, product_sku: "SKU123", product_status: "available"}};
     AddProductResponse addProductResponse = check ep->AddProduct(addProductRequest);
     io:println(addProductResponse);
 
-    ProductUpdateRequest updateProductRequest = {user_id: "ballerina", product_id: "ballerina", product: {product_id: "ballerina", product_name: "ballerina", product_description: "ballerina", product_price: 1, product_stock: 1, product_sku: "ballerina", product_status: "ballerina"}};
+    ProductUpdateRequest updateProductRequest = {user_id: "U002", product_id: "p1", product: {product_id: "p1", product_name: "Lenovo", product_description: "Grey", product_price: 1, product_stock: 1, product_sku: "SKU123", product_status: "available"}};
     ProductUpdateResponse updateProductResponse = check ep->UpdateProduct(updateProductRequest);
     io:println(updateProductResponse);
 
