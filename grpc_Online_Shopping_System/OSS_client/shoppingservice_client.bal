@@ -28,9 +28,10 @@ ShoppingServiceClient ep = check new ("http://localhost:9090");
     AddToCartResponse addToCartResponse = check ep->AddToCart(addToCartRequest);
     io:println(addToCartResponse);
 
-    OrderRequest placeOrderRequest = {product_id: "ballerina"};
+    OrderRequest placeOrderRequest = {product_id: "p1"};
     OrderResponse placeOrderResponse = check ep->PlaceOrder(placeOrderRequest);
     io:println(placeOrderResponse);
+
 
     UserRequest createUsersRequest1 = {user_id: "U001", user_name: "Alice", user_role: "customer"};
     UserRequest createUsersRequest2 = {user_id: "U002", user_name: "Bob", user_role: "admin"};
